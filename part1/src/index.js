@@ -1,7 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 //import Note from './Note.js'  //al exportar como default se puede llamar como quiera
-import {Note} from './Note.js'  //al exportar como nombrado hay que poner las {} BUENA PRACTICA
+//import {Note} from './Note.js'  //al exportar como nombrado hay que poner las {} BUENA PRACTICA
+import {App} from './App.js'
 
 const notes = [
   {
@@ -24,20 +25,5 @@ const notes = [
   },
 ]
 
-
-const App = () => {   //Primero comprobamos que notes sea un array y que no esté vacío
-  if(typeof notes === 'undefined' || notes.length === 0){
-    return 'No tenemos notas que mostrar'
-  }
-  /*usa 'index' en el map sería una mala práctica porque no garantiza in 'ID' único*/
-  return (
-    <ul>
-      {notes.map((note) => {  //el .map devuelve cada elemento del array
-          return <Note key={note.id} {...note} /> //la prop 'key siempre debe ir donde se itera'
-      }    
-      )}
-    </ul>
-  )
-}
 
 ReactDOM.render(<App notes={notes} />, document.getElementById('root'))
