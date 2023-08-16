@@ -1,10 +1,8 @@
-export const Note = ({ content, date }) => {    //exportar como nombrado
+export const Note = ({ title, body }) => {    //exportar como nombrado
     return (
       <li> 
-        <p><strong>{content}</strong></p>
-        <small>
-          <time>{date}</time>
-        </small>
+        <p><strong>{title}</strong></p>
+        <small>{body}</small>        
       </li>
       )
   };
