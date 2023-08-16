@@ -1,5 +1,6 @@
 //import logo from './logo.svg';
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 import './App.css';
 import {Note} from './Note.js'
 //import Message from './Message.js';
@@ -14,15 +15,24 @@ export const App = () =>{
     
     setLoading(true);
 
+    //con fetch se hace fetching de datos, para más avanzado usar axios (npm install axios)
     setTimeout( () => {
-      fetch('https://jsonplaceholder.typicode.com/posts')
+      /*fetch('https://jsonplaceholder.typicode.com/posts')
       .then((response) => response.json())
       .then((json) => {
         setNotes(json);
         setLoading(false);
-      });
+      });*/
+
+      axios
+        .get('https://jsonplaceholder.typicode.com/posts')
+        .then((response) => {
+          const {data} = response;
+          setNotes(data);
+          setLoading(false);
+        })
     }, 2000);
-  }, [newNote]);
+  }, []);
 
   const handleChange = (event) => {
     setNewNote(event.target.value);
