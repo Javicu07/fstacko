@@ -14,7 +14,7 @@ export const App = () =>{
     
     setLoading(true);
 
-    setLoading( () => {
+    setTimeout( () => {
       fetch('https://jsonplaceholder.typicode.com/posts')
       .then((response) => response.json())
       .then((json) => {
@@ -33,25 +33,23 @@ export const App = () =>{
     const noteToAddToState = {
       id: notes.length + 1,
       title: newNote,
-      body: newNote,
-    }
+      body: newNote
+    };
+
     setNotes([...notes, noteToAddToState]); //devuelve un array nuevo
     setNewNote('');
   };
 
-  if(typeof notes === 'undefined' || notes.length === 0) {
-    return <p> No tenemos notas que mostrar </p>
-    }
-    /*usa 'index' en el map sería una mala práctica porque no garantiza in 'ID' único*/
   return (
     <>
       <h1>Notes</h1>
-      <ul>
+      {loading ? 'Cargando...' : ''}
+      <ol>
         {notes
         .map((note) =>   //el .map devuelve cada elemento del array
           <Note key={note.id} {...note} /> //la prop 'key siempre debe ir donde se itera'    
         )}
-      </ul>
+      </ol>
       
       <form onSubmit={handleSubmit}> {/* con el formulario funciona introducir el valor con intro */} 
         <input type='text' onChange={handleChange} value={newNote}/>
