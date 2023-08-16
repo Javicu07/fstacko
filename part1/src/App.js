@@ -1,20 +1,28 @@
 //import logo from './logo.svg';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import {Note} from './Note.js'
 //import Message from './Message.js';
 
+export const App = () =>{
 
-
-export const App = (props) =>{
-
-  const [notes, setNotes] = useState(props.notes);
+  const [notes, setNotes] = useState([]);
   const [newNote, setNewNote] = useState('');
-  const [showAll, setShowAll] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  const handleShowAll = () => {
-    setShowAll( ()=>!showAll );
-  }
+  useEffect(()=> {
+    
+    setLoading(true);
+
+    setLoading( () => {
+      fetch('https://jsonplaceholder.typicode.com/posts')
+      .then((response) => response.json())
+      .then((json) => {
+        setNotes(json);
+        setLoading(false);
+      });
+    }, 2000);
+  }, [newNote]);
 
   const handleChange = (event) => {
     setNewNote(event.target.value);
@@ -24,9 +32,8 @@ export const App = (props) =>{
     event.preventDefault(); //previene el comportamiento de refrescar del formulario por defecto
     const noteToAddToState = {
       id: notes.length + 1,
-      content: newNote,
-      date: new Date().toISOString(),
-      important: Math.random() < 0.5,
+      title: newNote,
+      body: newNote,
     }
     setNotes([...notes, noteToAddToState]); //devuelve un array nuevo
     setNewNote('');
@@ -39,13 +46,8 @@ export const App = (props) =>{
   return (
     <>
       <h1>Notes</h1>
-      <button onClick={handleShowAll}>{showAll ? 'Show only importants' : 'Show all'}</button>
       <ul>
         {notes
-        .filter(note => {
-          if (showAll === true) return true;
-          return note.important === true;
-        })
         .map((note) =>   //el .map devuelve cada elemento del array
           <Note key={note.id} {...note} /> //la prop 'key siempre debe ir donde se itera'    
         )}
