@@ -1,8 +1,10 @@
 //import logo from './logo.svg';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+//import axios from 'axios';
 import './App.css';
 import {Note} from './Note.js'
+import { getAllNotes } from './services/notes/getAllNotes';
+import { createNotes } from './services/notes/createNotes';
 //import Message from './Message.js';
 
 export const App = () =>{
@@ -10,6 +12,7 @@ export const App = () =>{
   const [notes, setNotes] = useState([]);
   const [newNote, setNewNote] = useState('');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(()=> {
     
@@ -24,15 +27,12 @@ export const App = () =>{
         setLoading(false);
       });*/
 
-      axios
-        .get('https://jsonplaceholder.typicode.com/posts')
-        .then((response) => {
-          const {data} = response;
-          setNotes(data);
-          setLoading(false);
-        })
-    }, 2000);
-  }, []);
+      getAllNotes().then((notes) => {
+        setNotes(notes);
+        setLoading(false);
+        })  
+      }, 2000);
+    }, []);
 
   const handleChange = (event) => {
     setNewNote(event.target.value);
@@ -41,12 +41,20 @@ export const App = () =>{
   const handleSubmit = (event) => {
     event.preventDefault(); //previene el comportamiento de refrescar del formulario por defecto
     const noteToAddToState = {
-      id: notes.length + 1,
       title: newNote,
-      body: newNote
+      body: newNote,
+      userId: 1
     };
 
-    setNotes([...notes, noteToAddToState]); //devuelve un array nuevo
+    setError("");
+
+    createNotes(noteToAddToState).then(newNote => {
+      setNotes(prevNotes => prevNotes.concat(newNote));
+      })
+      .catch((error) => {
+        console.error(error);
+        setError('La API ha fallado');
+      })
     setNewNote('');
   };
 
@@ -65,6 +73,7 @@ export const App = () =>{
         <input type='text' onChange={handleChange} value={newNote}/>
         <button>Crear nota</button> {/* el ultimo boton de un formulario funciona como submit por defecto */}
       </form>
+      {error ? <small style={{color: 'red'}}>{error}</small> : ''}
     </>
   );
 }
