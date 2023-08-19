@@ -48,7 +48,7 @@ export const App = () =>{
 
     setError("");
 
-    createNotes(noteToAddToState).then(newNote => {
+    createNotes(noteToAddToState).then((newNote) => {
       setNotes(prevNotes => prevNotes.concat(newNote));
       })
       .catch((error) => {
