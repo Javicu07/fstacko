@@ -1,5 +1,10 @@
-const http = require('http') //Common JS
+//const http = require('http') //Common JS
 //input http from 'http'    //ECMA_Script Modules
+
+//'express' simplify the code 'npm install express'
+import express from 'express'
+const app = express()
+
 
 const notes = [
     {
@@ -25,10 +30,12 @@ const notes = [
 //install nodemon auto-update the application for changes 'npm install nodemon -D'
 //install the package not global, dependencies in the same project 
 //A createServer se le pasa un 'callback'
-const app = http.createServer((request, response) => {
-    response.writeHead(200, {'Content-Type': 'application/json'})
-    response.end(JSON.stringify(notes))
-})
+//const app = http.createServer((request, response) => {
+//    response.writeHead(200, {'Content-Type': 'application/json'})
+//    response.end(JSON.stringify(notes))
+//})
+
+
 
 const PORT = 3000
 app.listen(PORT)
