@@ -66,8 +66,27 @@ app.delete('/api/notes/:id', (request, response) => {
 // Add a resource with 'post'
 app.post('/api/notes', (request, response) => {
     const note = request.body
+    if(!note || !note.content){
+        return response.status(400).json({
+            error: 'note.content is missing'
+        })
+    }
+
     console.log(note)
-    response.json(note)
+    
+    const ids = notes.map(note => note.id)
+    const idMax = Math.max(...ids)
+    
+    const newNote = {
+        id: idMax + 1,
+        content: note.content,
+        important: typeof note.important !== undefined ? note.important : false,
+        date: new Date().toISOString(),
+    }
+
+    const notes = [...notes, newNote]   // notes = notes.concat(newNote)
+
+    response.json(newNote)
 })
 
 //const PORT = 3001
