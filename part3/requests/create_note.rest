@@ -1,0 +1,8 @@
+// this code use REST_Client extension
+
+POST http://localhost:3001/api/notes
+Content-Type: application/json
+
+{
+    "content": "Esto es una nota"
+}

@@ -1,0 +1,3 @@
+// this code use REST_Client extension
+
+DELETE http://localhost:3001/api/notes/1

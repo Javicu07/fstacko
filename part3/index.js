@@ -5,6 +5,7 @@
 import express from 'express'
 const app = express()
 
+app.use(express.json()) //  enable to use json.parse avaliable on 'express'
 
 const notes = [
     {
@@ -60,6 +61,13 @@ app.delete('/api/notes/:id', (request, response) => {
     const id = Number(request.params.id)
     notes = notes.filter(note => note.id !== id)
     response.status(204).end()
+})
+
+// Add a resource with 'post'
+app.post('/api/notes', (request, response) => {
+    const note = request.body
+    console.log(note)
+    response.json(note)
 })
 
 //const PORT = 3001

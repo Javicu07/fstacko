@@ -1,0 +1,3 @@
+// this code use REST_Client extension
+
+GET http://localhost:3001/api/notes
