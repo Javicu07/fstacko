@@ -1,7 +1,7 @@
-//const http = require('http') //Common JS
-//input http from 'http'    //ECMA_Script Modules
+//  const http = require('http') //Common JS
+//  input http from 'http'    //ECMA_Script Modules
 
-//'express' simplify the code 'npm install express'
+//  'express' simplify the code 'npm install express'
 import express from 'express'
 const app = express()
 
@@ -35,8 +35,31 @@ const notes = [
 //    response.end(JSON.stringify(notes))
 //})
 
+app.get('/', (request, response) => {
+    response.send('<h1>Hello World</h1>')
+})
 
+app.get('/api/notes', (request, response) => {
+    response.json(notes)
+})
 
-const PORT = 3000
-app.listen(PORT)
-console.log(`Server running on port ${PORT}`)
+app.get('/api/notes/:id', (request, response) => {
+    const id = Number(request.params.id)
+    console.log({id})
+    const note = notes.find(note => note.id === id)
+    console.log({note})
+    if(note){ 
+        response.json(note)
+    }else{
+        response.status(404).end()
+    }
+})
+
+//const PORT = 3001
+//app.listen(PORT)
+//console.log(`Server running on port ${PORT}`)
+
+const PORT = 3001
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`)
+})
