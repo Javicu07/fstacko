@@ -26,7 +26,7 @@ const notes = [
         'date': '2019-05-30T19:20:14.298Z',
         'important': true
     }
-];
+]
 
 //install nodemon auto-update the application for changes 'npm install nodemon -D'
 //install the package not global, dependencies in the same project 
@@ -59,7 +59,7 @@ app.get('/api/notes/:id', (request, response) => {
 //  Tools to make 'delete' --> postman, insomnia, REST Client (extensión)
 app.delete('/api/notes/:id', (request, response) => {
     const id = Number(request.params.id)
-    notes = notes.filter(note => note.id !== id)
+    const notes = notes.filter(note => note.id !== id)
     response.status(204).end()
 })
 
@@ -80,13 +80,13 @@ app.post('/api/notes', (request, response) => {
     const newNote = {
         id: idMax + 1,
         content: note.content,
-        important: typeof note.important !== undefined ? note.important : false,
+        important: typeof note.important !== 'undefined' ? note.important : false,
         date: new Date().toISOString(),
     }
 
     const notes = [...notes, newNote]   // notes = notes.concat(newNote)
 
-    response.json(newNote)
+    response.status(201).json(newNote)
 })
 
 //const PORT = 3001
