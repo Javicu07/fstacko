@@ -55,6 +55,13 @@ app.get('/api/notes/:id', (request, response) => {
     }
 })
 
+//  Tools to make 'delete' --> postman, insomnia, REST Client (extensión)
+app.delete('/api/notes/:id', (request, response) => {
+    const id = Number(request.params.id)
+    notes = notes.filter(note => note.id !== id)
+    response.status(204).end()
+})
+
 //const PORT = 3001
 //app.listen(PORT)
 //console.log(`Server running on port ${PORT}`)
