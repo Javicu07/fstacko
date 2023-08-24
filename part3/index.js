@@ -4,8 +4,13 @@
 
 //  'express' simplify the code 'npm install express'
 import express from 'express'
-import logger from 'loggerMiddleWare'
+import cors from 'cors'
+
+import { logger } from 'loggerMiddleWare'
+
 const app = express()
+
+app.use(cors()) // Avaliable request from any route
 
 //  "middleware" it´s a function that intercepts the request from the API
 app.use(express.json()) //  enable to use json.parse avaliable on 'express'
@@ -104,7 +109,8 @@ app.use((request, response) => {
 // app.listen(PORT)
 // console.log(`Server running on port ${PORT}`)
 
-const PORT = 3001
+const PORT = process.env.PORT || 3001
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
