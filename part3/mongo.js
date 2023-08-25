@@ -2,7 +2,7 @@
 import mongoose from 'mongoose'
 //  import { password } from './passwordModule'
 
-import Note from './models/Note'
+import Note from './models/Note.js'
 
 const connectionString = 'mongodb+srv://javicu:javicu@cluster0.a003qqx.mongodb.net/javdb?'
 
