@@ -5,8 +5,9 @@
 //  'express' simplify the code 'npm install express'
 import express from 'express'
 import cors from 'cors'
-
 import logger from 'loggerMiddleWare'
+
+require('./mongo.js')
 
 const app = express()
 
