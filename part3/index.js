@@ -2,13 +2,13 @@
 //  input http from 'http'    //ECMA_Script Modules
 //  linters used "Eslint" & "Standard" (use Eslint)
 
+import mongo from './mongo.js' //  Import directly by 'mongo' to execute the code (Connect First)
 //  'express' simplify the code 'npm install express'
 import express from 'express'
 import cors from 'cors'
 import logger from 'loggerMiddleWare'
 
-require('./mongo.js')
-
+mongo()
 const app = express()
 
 app.use(cors()) // Avaliable request from any route
@@ -18,6 +18,9 @@ app.use(express.json()) //  enable to use json.parse avaliable on 'express'
 
 app.use(logger)
 
+let notes = []
+
+/*
 let notes = [
   {
     id: 1,
@@ -38,6 +41,7 @@ let notes = [
     important: true
   }
 ]
+*/
 
 // install nodemon auto-update the application for changes 'npm install nodemon -D'
 // install the package not global, dependencies in the same project

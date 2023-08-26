@@ -1,5 +1,5 @@
 // 'npm install mongoose' makes more easy the mongodb configuration wihtout original driver
-import mongoose from 'mongoose'
+import mongoose, { mongo } from 'mongoose'
 //  import { password } from './passwordModule'
 
 import Note from './models/Note.js'
@@ -35,3 +35,5 @@ note.save()
   .catch(err => {
     console.log(err)
   })
+
+export default mongo
