@@ -4,7 +4,8 @@ import mongoose, { mongo } from 'mongoose'
 
 import Note from './models/Note.js'
 
-const connectionString = 'mongodb+srv://javicu:javicu@cluster0.a003qqx.mongodb.net/javdb?'
+//  const connectionString = 'mongodb+srv://javicu:javicu@cluster0.a003qqx.mongodb.net/javdb?'
+const connectionString = process.env.MONGO_DB_URI
 
 //  connection to mongodb
 mongoose.connect(connectionString, {

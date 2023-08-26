@@ -2,13 +2,14 @@
 //  input http from 'http'    //ECMA_Script Modules
 //  linters used "Eslint" & "Standard" (use Eslint)
 
-import mongo from './mongo.js' //  Import directly by 'mongo' to execute the code (Connect First)
+import dotenv from 'dotenv'
+import './mongo.js' //  Import directly by 'mongo' to execute the code (Connect First)
 //  'express' simplify the code 'npm install express'
 import express from 'express'
 import cors from 'cors'
-import logger from 'loggerMiddleWare'
+import logger from './loggerMiddleWare.js'
 
-mongo()
+dotenv.config() //  Read the file '.env'
 const app = express()
 
 app.use(cors()) // Avaliable request from any route
