@@ -9,6 +9,8 @@ import express from 'express'
 import cors from 'cors'
 import logger from './loggerMiddleWare.js'
 import Note from './models/Note.js'
+import { handleErrors } from './middleware/handleErrors.js'
+import { notFound } from './middleware/notFound.js'
 
 dotenv.config() //  Read the file '.env'
 const app = express()
@@ -161,7 +163,7 @@ app.put('/api/notes/:id', (request, response, next) => {
 
 //  app.use come here after the error in the 'next' thanks to 'Middleware'
 //  the order of 'middlewares' it´s important. Reading UP to DOWN in the code
-app.use((request, response, next) => {
+/*  app.use((request, response, next) => {
   response.status(404).end()
 })
 
@@ -173,7 +175,11 @@ app.use((error, request, response, next) => {
   } else {
     response.status(500).end()
   }
-})
+})  */
+
+//  The same but with good practice. Import from 'middleware.js' to handle errors
+app.use(notFound)
+app.use(handleErrors)
 
 // const PORT = 3001
 // app.listen(PORT)
