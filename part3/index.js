@@ -20,7 +20,7 @@ app.use(express.json()) //  enable to use json.parse avaliable on 'express'
 
 app.use(logger)
 
-let notes = []
+const notes = []
 
 /*
 let notes = [
@@ -74,10 +74,16 @@ app.get('/api/notes/:id', (request, response) => {
 })
 
 //  Tools to make 'delete' --> postman, insomnia, REST Client (extensión)
-app.delete('/api/notes/:id', (request, response) => {
-  const id = Number(request.params.id)
+app.delete('/api/notes/:id', (request, response, next) => {
+  const { id } = request.params
+
+  Note.findByIdAndDelete(id)
+    .then(() => response.status(204).end())
+    .catch(error => next(error))
+
+  /*  const id = Number(request.params.id)  //  Whitout using mondb
   notes = notes.filter(note => note.id !== id)
-  response.status(204).end()
+  response.status(204).end()  */
 })
 
 // Add a resource with 'post'
