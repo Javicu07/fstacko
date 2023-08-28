@@ -82,7 +82,26 @@ app.delete('/api/notes/:id', (request, response) => {
 
 // Add a resource with 'post'
 app.post('/api/notes', (request, response) => {
+  //  Using mongodb
   const note = request.body
+
+  if (!note.content) {
+    return response.status(404).json({
+      error: 'required "content" field is missing'
+    })
+  }
+
+  const newNote = new Note({
+    content: note.content,
+    date: new Date(),
+    important: note.important || false
+  })
+
+  newNote.save().then(savedNote => {
+    response.json(savedNote)
+  })
+
+  /*  const note = request.body //  Whitout using mongodb
   if (!note || !note.content) {
     return response.status(400).json({
       error: 'note.content is missing'
@@ -103,7 +122,7 @@ app.post('/api/notes', (request, response) => {
 
   notes = [...notes, newNote] // notes = notes.concat(newNote)
 
-  response.status(201).json(newNote)
+  response.status(201).json(newNote)  */
 })
 
 app.put('/api/notes/:id', (request, response, next) => {
@@ -124,11 +143,18 @@ app.put('/api/notes/:id', (request, response, next) => {
 
 //  app.use come here after the error in the 'next' thanks to 'Middleware'
 //  the order of 'middlewares' it´s important. Reading UP to DOWN in the code
+app.use((request, response, next) => {
+  response.status(404).end()
+})
 
-app.use((request, response) => {
-  response.status(404).json({
-    error: 'Not found'
-  })
+app.use((error, request, response, next) => {
+  console.error(error)
+
+  if (error.name === 'CastError') {
+    response.status(400).send({ error: 'id used is malformed' })
+  } else {
+    response.status(500).end()
+  }
 })
 
 // const PORT = 3001
