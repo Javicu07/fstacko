@@ -8,6 +8,7 @@ import './mongo.js' //  Import directly by 'mongo' to execute the code (Connect 
 import express from 'express'
 import cors from 'cors'
 import logger from './loggerMiddleWare.js'
+import Note from './models/Note.js'
 
 dotenv.config() //  Read the file '.env'
 const app = express()
@@ -104,6 +105,25 @@ app.post('/api/notes', (request, response) => {
 
   response.status(201).json(newNote)
 })
+
+app.put('/api/notes/:id', (request, response, next) => {
+  const { id } = request.params
+  const note = request.body
+
+  const newNoteInfo = {
+    content: note.content,
+    important: note.important
+  }
+
+  //  Find and update a especific note. {new:true} indicate response the updated note
+  Note.findByIdAndUpdate(id, newNoteInfo, { new: true })
+    .then(result => {
+      response.json(result)
+    })
+})
+
+//  app.use come here after the error in the 'next' thanks to 'Middleware'
+//  the order of 'middlewares' it´s important. Reading UP to DOWN in the code
 
 app.use((request, response) => {
   response.status(404).json({
