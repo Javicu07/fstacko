@@ -58,11 +58,23 @@ app.get('/', (request, response) => {
 })
 
 app.get('/api/notes', (request, response) => {
-  response.json(notes)
+  Note.find({}).then(notes => {
+    response.json(notes)
+  })
 })
 
-app.get('/api/notes/:id', (request, response) => {
-  const id = Number(request.params.id)
+app.get('/api/notes/:id', (request, response, next) => {
+  const { id } = request.params
+
+  Note.findById(id).then(note => {
+    if (note) {
+      return response.json(notes)
+    } else {
+      response.status(404).end()
+    }
+  }).catch(err => next(err))
+
+  /*  const id = Number(request.params.id)  //  Whitout using mongodb
   console.log({ id })
   const note = notes.find(note => note.id === id)
   console.log({ note })
@@ -70,7 +82,7 @@ app.get('/api/notes/:id', (request, response) => {
     response.json(note)
   } else {
     response.status(404).end()
-  }
+  } */
 })
 
 //  Tools to make 'delete' --> postman, insomnia, REST Client (extensión)
