@@ -19,6 +19,7 @@ app.use(cors()) // Avaliable request from any route
 
 //  "middleware" it´s a function that intercepts the request from the API
 app.use(express.json()) //  enable to use json.parse avaliable on 'express'
+app.use('/images', express.static('images')) //  To use static files likes images in our project
 
 app.use(logger)
 
