@@ -3,6 +3,7 @@ import mongoose, { mongo } from 'mongoose'
 //  import { password } from './passwordModule'
 
 import Note from './models/Note.js'
+import { disconnect } from 'process'
 
 //  const connectionString = 'mongodb+srv://javicu:javicu@cluster0.a003qqx.mongodb.net/javdb?'
 const connectionString = process.env.MONGO_DB_URI
@@ -36,5 +37,10 @@ note.save()
   .catch(err => {
     console.log(err)
   })
+
+//  Good practice, disconnect if errors occurs
+process.on('uncaughtException', () => {
+  mongoose.connection.disconnect()
+})
 
 export default mongo
