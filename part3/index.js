@@ -19,8 +19,8 @@ const express = require('express')
 const cors = require('cors')
 const logger = require('./loggerMiddleWare.js')
 const Note = require('./models/Note.js')
-const { handleErrors } = require('./middleware/handleErrors.js')
-const { notFound } = require('./middleware/notFound.js')
+const handleErrors = require('./middleware/handleErrors')
+const notFound = require('./middleware/notFound')
 
 dotenv.config() //  Read the file '.env'
 const app = express()
@@ -198,8 +198,8 @@ app.use(handleErrors)
 
 const PORT = process.env.PORT || 3001
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
 
-module.exports = { app }
+module.exports = { app, server }

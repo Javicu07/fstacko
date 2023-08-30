@@ -1,7 +1,7 @@
 const handleErrors = (error, request, response, next) => {
   console.error(error)
 
-  if (error.name === 'CastError') {
+  if (error === 'CastError') {
     response.status(400).send({ error: 'id used is malformed' })
   } else {
     response.status(500).end()
