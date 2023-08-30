@@ -1,4 +1,4 @@
-export const handleErrors = (error, request, response, next) => {
+const handleErrors = (error, request, response, next) => {
   console.error(error)
 
   if (error.name === 'CastError') {
@@ -7,3 +7,5 @@ export const handleErrors = (error, request, response, next) => {
     response.status(500).end()
   }
 }
+
+module.exports = handleErrors

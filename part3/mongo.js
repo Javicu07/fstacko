@@ -1,11 +1,19 @@
+//  'npm install supertest -D', library to test http servers and micro services
+
 // 'npm install mongoose' makes more easy the mongodb configuration wihtout original driver
-import mongoose, { mongo } from 'mongoose'
+const mongoose = require('mongoose')
 //  import { password } from './passwordModule'
 
-import Note from './models/Note.js'
+const Note = require('./models/Note.js')
+
+//  For testing no use database of production. FATAL ERROR
+//  Extract all the variables of .env
+const { MONGO_DB_URI, MONGO_DB_URI_TEST, NODE_ENV } = process.env
 
 //  const connectionString = 'mongodb+srv://javicu:javicu@cluster0.a003qqx.mongodb.net/javdb?'
-const connectionString = process.env.MONGO_DB_URI
+const connectionString = NODE_ENV === 'test'
+  ? MONGO_DB_URI_TEST
+  : MONGO_DB_URI
 
 //  connection to mongodb
 mongoose.connect(connectionString, {
@@ -42,5 +50,3 @@ note.save()
 process.on('uncaughtException', () => {
   mongoose.connection.disconnect()
 })  */
-
-export default mongo

@@ -12,15 +12,15 @@
 //  input http from 'http'    //ECMA_Script Modules
 //  linters used "Eslint" & "Standard" (use Eslint)
 
-import dotenv from 'dotenv'
-import './mongo.js' //  Import directly by 'mongo' to execute the code (Connect First)
+const dotenv = require('dotenv')
+require('./mongo.js') //  Import directly by 'mongo' to execute the code (Connect First)
 //  'express' simplify the code 'npm install express'
-import express from 'express'
-import cors from 'cors'
-import logger from './loggerMiddleWare.js'
-import Note from './models/Note.js'
-import { handleErrors } from './middleware/handleErrors.js'
-import { notFound } from './middleware/notFound.js'
+const express = require('express')
+const cors = require('cors')
+const logger = require('./loggerMiddleWare.js')
+const Note = require('./models/Note.js')
+const { handleErrors } = require('./middleware/handleErrors.js')
+const { notFound } = require('./middleware/notFound.js')
 
 dotenv.config() //  Read the file '.env'
 const app = express()
@@ -201,3 +201,5 @@ const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
+
+module.exports = { app }

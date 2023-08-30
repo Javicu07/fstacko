@@ -5,5 +5,5 @@ const logger = (request, response, next) => {
   next()
 }
 
-export default logger //  ES_module declaration
+module.exports = logger //  ES_module declaration
 //  module.exports = logger //  CommonJS_module declaration
