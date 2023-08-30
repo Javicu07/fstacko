@@ -1,3 +1,13 @@
+//  It´s necessary configure the different environments (development, production, test) in package.json
+//  IMPORTANT
+//  In windows system 'npm install cross-env' to avoid problems and configure has follow
+//  "scripts": {
+//    "dev": "cross-env NODE_ENV=development nodemon index.js",
+//    "lint": "eslint .",
+//    "start": "cross-env NODE_ENV=production index.js",
+//    "test": "cross-env NODE_ENV=test --verbose"
+//  },
+
 //  const http = require('http') //Common JS
 //  input http from 'http'    //ECMA_Script Modules
 //  linters used "Eslint" & "Standard" (use Eslint)

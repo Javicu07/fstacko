@@ -7,3 +7,9 @@ test('palindrome of javicu', () => {
 
   expect(result).toBe('ucivaj')
 })
+
+test('palindrome os undefined', () => {
+  const result = palindrome()
+
+  expect(result).toBeUndefined()
+})
