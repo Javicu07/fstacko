@@ -66,14 +66,20 @@ let notes = [
 //    response.end(JSON.stringify(notes))
 // })
 
-app.get('/', (request, response) => {
+/*  app.get('/', (request, response) => {
   response.send('<h1>Hello World</h1>')
-})
+})  */
 
-app.get('/api/notes', (request, response) => {
+/*  app.get('/api/notes', (request, response) => {
   Note.find({}).then(notes => {
     response.json(notes)
   })
+})  */
+
+//  Trying using async/await of the before 'app.get'. Looks like a synchronous code, but it´s not
+app.get('/api/notes', async (request, response) => {
+  const notes = await Note.find({})
+  response.json(notes)
 })
 
 app.get('/api/notes/:id', (request, response, next) => {

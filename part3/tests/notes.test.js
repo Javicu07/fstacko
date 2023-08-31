@@ -1,23 +1,9 @@
 const mongoose = require('mongoose')
-const supertest = require('supertest')
-const { app, server } = require('../index')
+
+const { server } = require('../index')
 const Note = require('../models/Note')
-const { beforeEach, test } = require('node:test')
-
-const api = supertest(app)
-
-const initialNotes = [
-  {
-    content: 'Learning FullStack JS',
-    important: true,
-    date: new Date()
-  },
-  {
-    content: 'Continue learning',
-    important: true,
-    date: new Date()
-  }
-]
+const { initialNotes, api } = require('./helpers')
+//  const { beforeEach, test } = require('node:test')
 
 beforeEach(async () => {
   await Note.deleteMany({})
