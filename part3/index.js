@@ -118,7 +118,7 @@ app.delete('/api/notes/:id', (request, response, next) => {
 })
 
 // Add a resource with 'post'
-app.post('/api/notes', (request, response) => {
+/*  app.post('/api/notes', (request, response, next) => {
   //  Using mongodb
   const note = request.body
 
@@ -136,9 +136,9 @@ app.post('/api/notes', (request, response) => {
 
   newNote.save().then(savedNote => {
     response.json(savedNote)
-  })
+  }).catch(err => next(err)) */
 
-  /*  const note = request.body //  Whitout using mongodb
+/*  const note = request.body //  Whitout using mongodb
   if (!note || !note.content) {
     return response.status(400).json({
       error: 'note.content is missing'
@@ -159,7 +159,31 @@ app.post('/api/notes', (request, response) => {
 
   notes = [...notes, newNote] // notes = notes.concat(newNote)
 
-  response.status(201).json(newNote)  */
+  response.status(201).json(newNote)
+})  */
+
+//  Trying using async/await of the before 'app.get'. Looks like a synchronous code, but it´s not
+app.post('/api/notes', async (request, response, next) => {
+  const note = request.body
+
+  if (!note.content) {
+    return response.status(404).json({
+      error: 'required "content" field is missing'
+    })
+  }
+
+  const newNote = new Note({
+    content: note.content,
+    date: new Date(),
+    important: note.important || false
+  })
+
+  try {
+    const savedNote = await newNote.save()
+    response.json(savedNote)
+  } catch (err) {
+    next(err)
+  }
 })
 
 app.put('/api/notes/:id', (request, response, next) => {

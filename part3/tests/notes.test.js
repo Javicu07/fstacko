@@ -29,7 +29,6 @@ test('there are two notes', async () => {
 
 test('the first note is about FullStack', async () => {
   const response = await api.get('/api/notes')
-
   const contents = response.body.map(note => note.content)
 
   expect(contents).toContain('Learning FullStack JS')
@@ -53,6 +52,35 @@ test('a valid note can be added', async () => {
 
   expect(response.body).toHaveLength(initialNotes.length + 1)
   expect(contents).toContain(newNote.content)
+})
+
+test('a note can be deleted', async () => {
+  let response = await api.get('/api/notes')
+  const { response: firstResponse } = response.body.map(note => note.content)
+  const { body: notes } = firstResponse
+  const noteToDelete = notes[0]
+
+  await api
+    .delete(`/api/notes/${noteToDelete.id}`)
+    .expect(204)
+
+  response = await api.get('/api/notes')
+  const { contents, response: secondResponse } = response.body.map(note => note.content)
+
+  expect(secondResponse.body).toHaveLength(initialNotes.length - 1)
+
+  expect(contents).not.toContain(noteToDelete.content)
+})
+
+test('a note that not exist can not be deleted', async () => {
+  await api
+    .delete('/api/notes/1234')
+    .expect(400)
+
+  const response = await api.get('/api/notes')
+  const contents = response.body.map(note => note.content)
+
+  expect(contents.body).toHaveLength(initialNotes.length)
 })
 
 //  Hook of test, executed after finished all tests
