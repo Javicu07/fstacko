@@ -105,12 +105,15 @@ app.get('/api/notes/:id', (request, response, next) => {
 })
 
 //  Tools to make 'delete' --> postman, insomnia, REST Client (extensión)
-app.delete('/api/notes/:id', (request, response, next) => {
+app.delete('/api/notes/:id', async (request, response, next) => {
   const { id } = request.params
-
+  /*
   Note.findByIdAndDelete(id)
     .then(() => response.status(204).end())
     .catch(error => next(error))
+  */
+  await Note.findByIdAndDelete(id)
+  response.status(204).end()
 
   /*  const id = Number(request.params.id)  //  Whitout using mondb
   notes = notes.filter(note => note.id !== id)
