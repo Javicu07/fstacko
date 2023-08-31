@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const { app, server } = require('../index')
 const Note = require('../models/Note')
-const { beforeEach } = require('node:test')
+const { beforeEach, test } = require('node:test')
 
 const api = supertest(app)
 
@@ -47,6 +47,26 @@ test('the first note is about FullStack', async () => {
   const contents = response.body.map(note => note.content)
 
   expect(contents).toContain('Learning FullStack JS')
+})
+
+test('a valid note can be added', async () => {
+  const newNote = {
+    content: 'Next time we going to see "async/await"',
+    important: true
+  }
+
+  await api
+    .post('/api/notes')
+    .send(newNote)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  const response = await api.get('/api/notes')
+
+  const contents = response.map(note => note.content)
+
+  expect(response.body).toHaveLength(initialNotes.length + 1)
+  expect(contents).toContain(newNote.content)
 })
 
 //  Hook of test, executed after finished all tests
