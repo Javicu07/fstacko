@@ -9,14 +9,14 @@ beforeEach(async () => {
   await Note.deleteMany({})
   console.log('beforeEach')
 
-  //  Parallel
+  //  Parallel (You don´t have control how saves first)
   /*
   const notesObjects = initialNotes.map(note => new Note(note))
   const promises = notesObjects.map(note => new note.save())
   await Promise.all(promises)
   */
 
-  //  Sequential
+  //  Sequential (Save one, await, save the next, await, ...)
   for (const note of initialNotes) {
     const noteObject = new Note(note)
     await noteObject.save()

@@ -5,7 +5,19 @@ const { Schema, model } = require('mongoose')
 const noteSchema = new Schema({
   content: String,
   date: Date,
-  important: Boolean
+  important: Boolean,
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }
+})
+
+noteSchema.set('ToJSON', {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id
+    delete returnedObject._id
+    delete returnedObject._v
+  }
 })
 
 //  With the 'Schema' created we go to make a model to build instances of the 'Schema'
