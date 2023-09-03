@@ -6,7 +6,7 @@ const userSchema = new Schema({
   passwordHash: String, // actually the password it´s needs to be codified
   notes: [{
     type: Schema.Types.ObjectId,
-    ref: 'Note'
+    ref: 'Note' //  Reference to the 'Note' model created
   }]
 })
 
@@ -20,3 +20,8 @@ userSchema.set('ToJSON', {
     delete returnedObject.passwordHash
   }
 })
+
+//  Creating instances of User
+const User = model('User', userSchema)
+
+module.exports = User

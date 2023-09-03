@@ -8,7 +8,7 @@ const noteSchema = new Schema({
   important: Boolean,
   user: {
     type: Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'User' //  Reference to the 'User' model created
   }
 })
 

@@ -12,6 +12,8 @@
 //  input http from 'http'    //ECMA_Script Modules
 //  linters used "Eslint" & "Standard" (use Eslint)
 
+const Sentry = require('@sentry/node')
+const Tracing = require('@sentry/tracing')
 const dotenv = require('dotenv')
 require('./mongo.js') //  Import directly by 'mongo' to execute the code (Connect First)
 //  'express' simplify the code 'npm install express'
@@ -66,9 +68,32 @@ let notes = [
 //    response.end(JSON.stringify(notes))
 // })
 
-/*  app.get('/', (request, response) => {
+Sentry.init({
+  dsn: 'http://localhost:3031',
+  integrations: [
+    //  enable HTTP calls tracing
+    new Sentry.Integrations.Http({ tracing: true }),
+    //  enable Express.js middleware tracing
+    new Tracing.Integrations.Express({ app })
+  ],
+
+  // we recommend adjusting this value in production, or using tracesSampler
+  // for finer control
+  tracesSampleRate: 1.0
+})
+
+//  Request handler creates a separate execution context using domains, so that every
+//  transaction/span/breadcrumb is attached to it´s own Hub instance
+app.use(Sentry.Handlers.requestHandler())
+//  TracingHandlers creates a trace for every incoming request
+app.use(Sentry.Handlers.tracingHandler())
+
+app.get('/', (request, response) => {
+  console.log(request.ip)
+  console.log(request.ips)
+  console.log(request.originalUrl)
   response.send('<h1>Hello World</h1>')
-})  */
+})
 
 /*  app.get('/api/notes', (request, response) => {
   Note.find({}).then(notes => {
@@ -223,6 +248,9 @@ app.use((error, request, response, next) => {
 
 //  The same but with good practice. Import from 'middleware.js' to handle errors
 app.use(notFound)
+
+app.use(Sentry.Handlers.errorHandler())
+
 app.use(handleErrors)
 
 // const PORT = 3001
