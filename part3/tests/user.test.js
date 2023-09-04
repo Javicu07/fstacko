@@ -1,7 +1,7 @@
 const { beforeEach } = require('node:test')
 const bcrypt = require('bcrypt')
 const User = require('../models/User')
-const { api } = require('./helpers')
+const { api, getUsers } = require('./helpers')
 const moongose = require('moongose')
 const { server } = require('../index')
 
@@ -18,8 +18,7 @@ describe('creating a new user', () => {
   })
 
   test('work as expected creating a fresh username', async () => {
-    const usersDB = await User.find({})
-    const usersAtStart = usersDB.map(user => user.toJSON())
+    const usersAtStart = await getUsers()
 
     const newUser = {
       username: 'midudev',
@@ -30,16 +29,36 @@ describe('creating a new user', () => {
     await api
       .post('/api/users')
       .send(newUser)
-      .expect(200)
+      .expect(201)
       .expect('Content-Type', /application\/json/)
 
-    const usersDBAfter = await User.find({})
-    const usersAtEnd = usersDBAfter.map(user => user.toJSON())
+    const usersAtEnd = await getUsers()
 
     expect(usersAtEnd).toHaveLength(usersAtStart.length + 1)
 
     const usernames = usersAtEnd.map(u => u.username)
     expect(usernames).toContain(newUser.username)
+  })
+
+  test('creation fails with proper statuscode and message if username is already taken', async () => {
+    const usersAtStart = await getUsers()
+
+    const newUser = {
+      username: 'miduroot',
+      name: 'Miguel',
+      password: 'midupswd'
+    }
+
+    const result = await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    expect(result.body.errors.username.message).toContain('`username` to be unique')
+
+    const usersAtEnd = await getUsers()
+    expect(usersAtEnd).toHaveLength(usersAtStart.length)
   })
 
   afterAll(() => {
