@@ -105,7 +105,10 @@ app.get('/', (request, response) => {
 
 //  Trying using async/await of the before 'app.get'. Looks like a synchronous code, but it´s not
 app.get('/api/notes', async (request, response) => {
-  const notes = await Note.find({})
+  const notes = await Note.find({}).populate('user', {
+    username: 1,
+    name: 1
+  })
   response.json(notes)
 })
 

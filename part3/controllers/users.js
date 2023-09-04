@@ -7,9 +7,17 @@ const User = require('../models/User')
 "populate('notes')" it´s like a "join('notes')" but it´s not the same because it´s not transactional,
 no block the notes in the database, can be differences between the GET and the database collection
 */
-
+/*
+By default "populate('notes')" return all the parameters, for specific parameters indicate the values,
+'1' it´s true and '0' it´s false
+*/
 usersRouter.get('/', async (request, response) => {
-  const users = await User.find({}).populate('notes') // Find all and populate with notes
+  const users = await User.find({}).populate('notes', {
+    content: 1,
+    date: 1,
+    important: 1,
+    _id: 0
+  }) // Find all and populate with notes
   response.json(users)
 })
 
