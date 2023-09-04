@@ -12,5 +12,7 @@ POST http://localhost:3001/api/notes
 Content-Type: application/json
 
 {
-    
+    "content": "subscribe to midu",
+    "important": true,
+    "userId": "s8odhosdfuos9du" //  Put the specific ID of the user
 }

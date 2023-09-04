@@ -24,6 +24,7 @@ const Note = require('./models/Note.js')
 const notFound = require('./middleware/notFound')
 const handleErrors = require('./middleware/handleErrors')
 const usersRouter = require('./controllers/users')
+const User = require('./models/User.js')
 
 dotenv.config() //  Read the file '.env'
 const app = express()
@@ -193,22 +194,29 @@ app.delete('/api/notes/:id', async (request, response, next) => {
 
 //  Trying using async/await of the before 'app.get'. Looks like a synchronous code, but it´s not
 app.post('/api/notes', async (request, response, next) => {
-  const note = request.body
+  const { content, important = false, userId } = request.body
 
-  if (!note.content) {
+  const user = await User.findById(userId)
+
+  if (!content) {
     return response.status(404).json({
       error: 'required "content" field is missing'
     })
   }
 
   const newNote = new Note({
-    content: note.content,
+    content,
     date: new Date(),
-    important: note.important || false
+    important,
+    user: user._id //  Other way is "user: user.toJSON().id"
   })
 
   try {
     const savedNote = await newNote.save()
+
+    user.notes = user.notes.concat(savedNote._id) // doing thanks to moongose
+    await user.save()
+
     response.json(savedNote)
   } catch (err) {
     next(err)
