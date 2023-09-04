@@ -3,8 +3,13 @@ const usersRouter = require('express').Router()
 
 const User = require('../models/User')
 
+/*
+"populate('notes')" it´s like a "join('notes')" but it´s not the same because it´s not transactional,
+no block the notes in the database, can be differences between the GET and the database collection
+*/
+
 usersRouter.get('/', async (request, response) => {
-  const users = await User.find({}) // Find all
+  const users = await User.find({}).populate('notes') // Find all and populate with notes
   response.json(users)
 })
 
