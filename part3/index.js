@@ -24,6 +24,7 @@ const Note = require('./models/Note.js')
 const notFound = require('./middleware/notFound')
 const handleErrors = require('./middleware/handleErrors')
 const usersRouter = require('./controllers/users')
+const loginRouter = require('./controllers/login.js')
 const User = require('./models/User.js')
 
 dotenv.config() //  Read the file '.env'
@@ -243,6 +244,7 @@ app.put('/api/notes/:id', (request, response, next) => {
 })
 
 app.use('/api/users', usersRouter)
+app.use('/api/login', loginRouter)
 
 //  app.use come here after the error in the 'next' thanks to 'Middleware'
 //  the order of 'middlewares' it´s important. Reading UP to DOWN in the code

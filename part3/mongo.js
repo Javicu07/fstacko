@@ -45,8 +45,8 @@ note.save()
     console.log(err)
   })
 
-/*
 //  Good practice, disconnect if errors occurs
-process.on('uncaughtException', () => {
-  mongoose.connection.disconnect()
-})  */
+process.on('uncaughtException', error => {
+  console.error(error)
+  mongoose.disconnect()
+})
