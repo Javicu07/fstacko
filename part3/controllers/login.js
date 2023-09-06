@@ -1,5 +1,4 @@
 // 'npm install jsonwebtoken' for use codified JSON
-
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const loginRouter = require('express').Router()
@@ -26,7 +25,7 @@ loginRouter.post('/', async (request, response) => {
   }
 
   // Building the token
-  const token = jwt.sign(userForToken, '123') // The second parameter is the secret word for token
+  const token = jwt.sign(userForToken, process.env.SECRET) // The second parameter is the secret word for token
 
   response.send({
     name: user.name,

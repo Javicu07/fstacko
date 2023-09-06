@@ -24,8 +24,8 @@ const Note = require('./models/Note.js')
 const notFound = require('./middleware/notFound')
 const handleErrors = require('./middleware/handleErrors')
 const usersRouter = require('./controllers/users')
-const loginRouter = require('./controllers/login.js')
-const User = require('./models/User.js')
+const loginRouter = require('./controllers/login')
+const User = require('./models/User')
 
 dotenv.config() //  Read the file '.env'
 const app = express()
