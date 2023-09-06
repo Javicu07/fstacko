@@ -18,6 +18,7 @@ const dotenv = require('dotenv')
 require('./mongo.js') //  Import directly by 'mongo' to execute the code (Connect First)
 //  'express' simplify the code 'npm install express'
 const express = require('express')
+const jwt = require('jsonwebtoken')
 const cors = require('cors')
 const logger = require('./loggerMiddleWare.js')
 const Note = require('./models/Note.js')
@@ -199,6 +200,22 @@ app.delete('/api/notes/:id', async (request, response, next) => {
 //  Trying using async/await of the before 'app.get'. Looks like a synchronous code, but it´s not
 app.post('/api/notes', async (request, response, next) => {
   const { content, important = false, userId } = request.body
+
+  const authorization = request.get('authorization')
+  let token = ''
+
+  if (authorization && authorization.toLowerCase().startsWith('bearer')) {
+    token = authorization.substring(7)
+  }
+
+  let decodedToken = {}
+  try {
+    decodedToken = jwt.verify(token, process.env.SECRET)
+  } catch {}
+
+  if (!token || !decodedToken.id) {
+    return response.status(401).json({ error: 'token missing or invalid' })
+  }
 
   const user = await User.findById(userId)
 

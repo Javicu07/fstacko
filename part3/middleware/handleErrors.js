@@ -1,11 +1,16 @@
-const handleErrors = (error, request, response, next) => {
-  console.error(error)
+const ERROR_HANDLERS = {
+  CastError: res => res.status(400).send({ error: 'id used is malformed' }),
 
-  if (error === 'CastError') {
-    response.status(400).send({ error: 'id used is malformed' })
-  } else {
-    response.status(500).end()
-  }
+  ValidationError: (res, error) => res.status(409).send({ error: error.message }),
+
+  JsonWebTokenError: (res) => res.status(401).json({ error: 'token missing or invalid' }),
+
+  defaultError: res => res.status(500).end()
 }
 
-module.exports = handleErrors
+module.exports = (error, request, response, next) => {
+  console.error(error.name)
+  const handler = ERROR_HANDLERS[error.name] || ERROR_HANDLERS.defaultError
+
+  handler(response, error)
+}
