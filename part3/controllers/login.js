@@ -25,7 +25,12 @@ loginRouter.post('/', async (request, response) => {
   }
 
   // Building the token
-  const token = jwt.sign(userForToken, process.env.SECRET) // The second parameter is the secret word for token
+  const token = jwt.sign(
+    userForToken,
+    process.env.SECRET, // The second parameter is the secret word for token
+    {
+      expiresIn: 60 * 60 * 24 * 7 // The token expires in seven days. It´s need logged again
+    })
 
   response.send({
     name: user.name,

@@ -3,7 +3,9 @@ const ERROR_HANDLERS = {
 
   ValidationError: (res, error) => res.status(409).send({ error: error.message }),
 
-  JsonWebTokenError: (res) => res.status(401).json({ error: 'token missing or invalid' }),
+  JsonWebTokenError: res => res.status(401).json({ error: 'token missing or invalid' }),
+
+  TokenExpirerError: res => res.status(401).json({ error: 'token expired' }),
 
   defaultError: res => res.status(500).end()
 }

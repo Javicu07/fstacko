@@ -2,9 +2,11 @@
 
 POST http://localhost:3001/api/notes
 Content-Type: application/json
+Authorization: Bearer /*next indicates the complete token assigned to the user */
 
 {
-    "content": "Esto es una nota"
+    "content": "Esto es una nota",
+    "important": true
 }
 
 ###
