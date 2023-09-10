@@ -114,7 +114,7 @@ app.get('/api/notes', async (request, response) => {
   response.json(notes)
 })
 
-app.get('/api/notes/:id', (request, response, next) => {
+app.get('/api/notes/:id', userExtractor, (request, response, next) => {
   const { id } = request.params
 
   Note.findById(id).then(note => {
@@ -137,7 +137,7 @@ app.get('/api/notes/:id', (request, response, next) => {
 })
 
 //  Tools to make 'delete' --> postman, insomnia, REST Client (extensión)
-app.delete('/api/notes/:id', async (request, response, next) => {
+app.delete('/api/notes/:id', userExtractor, async (request, response, next) => {
   const { id } = request.params
   /*
   Note.findByIdAndDelete(id)
@@ -203,6 +203,7 @@ app.post('/api/notes', userExtractor, async (request, response, next) => {
 
   // Extract userId de request
   const { userId } = request
+
   const user = await User.findById(userId)
 
   if (!content) {
