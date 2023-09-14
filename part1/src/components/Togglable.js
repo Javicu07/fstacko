@@ -1,7 +1,10 @@
+// 'forwardRef' is a method that when come a prop 'ref' up the correct value upside the program
+
 import React, {forwardRef, useImperativeHandle, useState} from 'react'
 import PropTypes from 'prop-types'
 import i18n from '../i18n/index'
 
+// 'forwardRef' receive the 'props' and the 'ref'
 const Togglable = forwardRef(({children, buttonLabel = 'show'}, ref) => {
   const [visible, setVisible] = useState(false)
 

@@ -1,3 +1,5 @@
+// 'useRef' save a reference into a object that not change between render 
+
 import React, {useRef, useState} from 'react'
 import Togglable from './Togglable.js'
 
