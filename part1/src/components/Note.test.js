@@ -9,10 +9,10 @@ test('renders content', () => {
     important: true
   }
 
-  const component = render(<Note note={note} />)
+  const utils = render(<Note note={note} />)
 
-  component.getByText('This is a test')
-  component.getByText('make not important')
+  utils.getByText('This is a test')
+  utils.getByText('make not important')
 })
 
 test('clicking the button calls event handler once', () => {
@@ -23,9 +23,9 @@ test('clicking the button calls event handler once', () => {
 
   const mockHandler = jest.fn()
 
-  const component = render(<Note note={note} toggleImportance={mockHandler} />)
+  const utils = render(<Note note={note} toggleImportance={mockHandler} />)
 
-  const button = component.getByText('make not important')
+  const button = utils.getByText('make not important')
   fireEvent.click(button)
 
   expect(mockHandler).toHaveBeenCalledTimes(1)

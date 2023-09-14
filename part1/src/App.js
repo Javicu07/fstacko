@@ -1,3 +1,7 @@
+// 'npm install prop-types' permit make customizable props
+
+// 'npm install --save-dev @testing-library/react @testing-library/jest-dom' for tests
+
 //import logo from './logo.svg';
 
 // 'useEffect' executes only when change his dependencies '[]'

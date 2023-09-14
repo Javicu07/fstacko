@@ -21,7 +21,7 @@ export default function NoteForm ({addNote, handleLogout}) {
 
     addNote(noteObject)
     setNewNote('')
-    togglableRef.current.toggleVisibility()
+    togglableRef.current.toggleVisibility() // '{current}' contains the 'ref' value
   }
 
   return (
