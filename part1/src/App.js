@@ -2,12 +2,15 @@
 import { useState, useEffect } from 'react';
 //import axios from 'axios';
 import './App.css';
-import Note from './Note.js'
-import { getAllNotes } from './services/notes/getAllNotes';
-import { createNotes } from './services/notes/createNotes';
+//import { getAllNotes } from './services/notes/getAllNotes';
+//import { createNotes } from './services/notes/createNotes';
+//import Message from './Message.js';
+import Note from './components/Note'
+import Notification from './components/Notification'
 import noteService from './services/notes'
 import loginService from './services/login'
-//import Message from './Message.js';
+import LoginForm from './components/LoginForm.js'
+import NoteForm from './components/NoteForm.js'
 
 export const App = () =>{
 
@@ -42,6 +45,12 @@ export const App = () =>{
         })  
       }, 2000);*/
     }, []);
+
+  const handleLogout = () => {
+    setUser(null)
+    noteService.setToken(null)
+    window.localStorage.removeItem('loggedNoteAppUser')
+  }  
 
   const addNote = (event) => {
     event.preventDefault()
