@@ -1,4 +1,7 @@
 //import logo from './logo.svg';
+
+// 'useEffect' executes only when change his dependencies '[]'
+// 'useEffect' and 'useImperativeHandle' are similars
 import { useState, useEffect } from 'react';
 //import axios from 'axios';
 import './App.css';
@@ -87,11 +90,11 @@ export const App = () =>{
         }, 5000)
       })
   }
-
+  /*
   const handleNoteChange = (event) => {
     setNewNote(event.target.value);
   }
-
+  */
   /*
   const handleSubmit = (event) => {
     event.preventDefault(); //previene el comportamiento de refrescar del formulario por defecto
