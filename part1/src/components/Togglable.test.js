@@ -17,30 +17,30 @@ describe('<Toggable />', () => {
   })
 
   test('renders its children', () => {
-    component.getByText('testDivContent')
+    component.screen.getByText('testDivContent')
   })
 
   test('renders its children but they are not visible', () => {
-    const el = component.getByText('testDivContent')
+    const el = component.screen.getByText('testDivContent')
     expect(el.parentNode).not.toBeVisible()
   })
 
   test('after clicking its children must be shown', () => {
-    const button = component.getByText(buttonLabel)
+    const button = component.screen.getByText(buttonLabel)
     fireEvent.click(button)
 
-    const el = component.getByText('testDivContent')
+    const el = component.screen.getByText('testDivContent')
     expect(el.parentNode).toBeVisible()
   })
 
   test('toggled content can be closed', () => {
-    const button = component.getByText(buttonLabel)
+    const button = component.screen.getByText(buttonLabel)
     fireEvent.click(button)
 
-    const el = component.getByText('testDivContent')
+    const el = component.screen.getByText('testDivContent')
     expect(el.parentNode).toBeVisible()
 
-    const cancelButton = component.getByText(i18n.TOGGABLE.CANCEL_BUTTON)
+    const cancelButton = component.screen.getByText(i18n.TOGGABLE.CANCEL_BUTTON)
     fireEvent.click(cancelButton)
 
     expect(el.parentNode).not.toBeVisible()
